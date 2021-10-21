@@ -1,5 +1,4 @@
 
-
 public class LineSegment {
     private Point p,q;
 

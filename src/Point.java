@@ -1,7 +1,7 @@
 import java.util.Comparator;
 
 public class Point implements Comparable<Point> {
-    private int x,y;
+    final private int x,y;
 
     public Point(int x, int y){// constructs the point (x, y)
         this.x = x;
@@ -23,6 +23,9 @@ public class Point implements Comparable<Point> {
         return output;
     }
     public double slopeTo(Point that){// the slope between this point and that point
+
+        if(this.compareTo(that)==0)return Double.POSITIVE_INFINITY;
+
         double value = (double)(that.y-this.y)/(double)(that.x-this.x);
         if(value==Double.NEGATIVE_INFINITY)value = Double.POSITIVE_INFINITY;
         if(value==-0)value = 0;
