@@ -1,10 +1,11 @@
-public class FastCollinearPoints {
+import edu.princeton.cs.algs4.In;
 
+public class BruteCollinearPointsOld {
     private LineSegment[] segments;
 
-    public FastCollinearPoints(Point[] points) {   // finds all line segments containing 4 or more points
-        if(points==null)throw new IllegalArgumentException();
+    public BruteCollinearPointsOld(Point[] points) {    // finds all line segments containing 4 points
         //throw exceptions if input is faulty
+        if(points==null)throw new IllegalArgumentException();
         for (int i = 0; i < points.length; i++) {
             if(points[i]==null)throw new IllegalArgumentException();
             for (int j = 0; j < i; j++) {
@@ -28,34 +29,16 @@ public class FastCollinearPoints {
         return segments;
     }
 
-
-
-
-
-
-    private PointSlope[] sort(PointSlope[] array){
-
-        if(array.length==1)return array;
-
-        PointSlope[] output = new PointSlope[array.length];
-        int righti = 0;
-        int lefti = array.length/2;
-
-        for (int i = 0; i < output.length; i++) {
-
-            if(righti<array.length/2 && (lefti>=output.length || array[righti].slope<array[lefti].slope)){
-                output[i] = array[righti];
-                righti++;
-            }else{
-                output[i] = array[lefti];
-                lefti++;
-
+    private void sort(PointSlope[] array){
+        for (int i = 0; i < array.length; i++) {
+            for (int j = i-1; j >= 0 ; j--) {
+                if(array[j+1].slope<array[j].slope){
+                    PointSlope temp = array[j];
+                    array[j] = array[j+1];
+                    array[j+1] = temp;
+                }
             }
-
         }
-
-        return output;
-
     }
     //class to be able to hold the points and their slopes together in one array during calculations
     private class PointSlope{
@@ -82,7 +65,7 @@ public class FastCollinearPoints {
                     n++;
                 }
             }
-            slopes = sort(slopes);//sort the slopes
+            sort(slopes);//sort the slopes
             //put the points into a line segment if they lie on the same slope
             //but only if point[i] is the smallest out of all of them
             for (int j = 0; j < slopes.length-2; j++) {
@@ -105,8 +88,6 @@ public class FastCollinearPoints {
 
 
                     }
-
-
                     if(iIsMin){
                         //making a new line segment at current position, and incrementint current position
                         segments[current] = new LineSegment(points[i],maxx);
@@ -123,4 +104,28 @@ public class FastCollinearPoints {
         }
         segments = polishedsegments;
     }
+
+//    public static void main(String[] args){
+//
+//        Point[] points = new Point[8];
+////        points[4] = new Point(-1,0);
+////        points[0] = new Point( 0,1);
+////        points[1] = new Point( 1,2);
+////        points[2] = new Point( 2,3);
+////        points[3] = new Point( 3,4);
+//        points[0] = new Point(0,0);
+//        points[1] = new Point(1,6);
+//        points[2] = new Point(2,1);
+//        points[3] = new Point(3,3);
+//        points[4] = new Point(4,4);
+//        points[5] = new Point(2,2);
+//        points[6] = new Point(-1,-6);
+//        points[7] = new Point(2,12);
+//
+//        BruteCollinearPoints bcp = new BruteCollinearPoints(points);
+//
+//        for (int i = 0; i < bcp.numberOfSegments(); i++) {
+//            System.out.println(bcp.segments[i]);
+//        }
+//    }
 }

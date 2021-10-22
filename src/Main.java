@@ -5,10 +5,16 @@ import edu.princeton.cs.algs4.StdOut;
 public class Main {
     public static void main(String[] args) {
 
-        Point[] points = new Point[6];
-        for (int i = 0; i < points.length; i++) {
-            points[i] = new Point(3,i);
-        }
+        Point[] points = new Point[9];
+        points[0] = new Point(1,2);
+        points[1] = new Point(-5,10);
+        points[2] = new Point(3,-2);
+        points[3] = new Point(-3,10);
+        points[4] = new Point(1,7);
+        points[5] = new Point(0,2);
+        points[6] = new Point(4,-4);
+        points[7] = new Point(-1,6);
+        points[8] = new Point(0,4);
 
         BruteCollinearPoints bcp = new BruteCollinearPoints(points);
 
