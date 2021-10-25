@@ -1,3 +1,4 @@
+import javax.swing.text.Segment;
 import java.util.stream.IntStream;
 
 public class BruteCollinearPoints {
@@ -11,10 +12,13 @@ public class BruteCollinearPoints {
     public BruteCollinearPoints(Point[] points) {    // finds all line segments containing 4 points
         //throw exceptions if input is faulty
         checkArgumentLegality(points);
-        //the maximum number of segments possible is 3 less than the number of points
         //we will dellete the extra elements later
-        segments = new LineSegment[points.length-segmentLength+1];
-        findSegments(points);
+        segments = new LineSegment[points.length];
+        Point[] ourPoints = new Point[points.length];
+        for (int i = 0; i < points.length; i++) {
+            ourPoints[i] = points[i];
+        }
+        findSegments(ourPoints);
         trimSegments();
     }
     public           int numberOfSegments(){        // the number of line segments
@@ -39,10 +43,17 @@ public class BruteCollinearPoints {
     }
     //removes extra elements
     private void trimSegments(){
-
+        LineSegment[] trimedSegments = new LineSegment[segmentsSize];
+        for (int i = 0; i < segmentsSize; i++) {
+            trimedSegments[i] = segments[i];
+        }
+        segments = trimedSegments;
     }
     //fill the segments array with all possible segments from points
     private void findSegments(Point[] points){
+        //sort the points array so we don't need to see which points are at ends later
+        points = sortPoints(points);
+
         //itterate through each point to check their slopes compared to others
         for (int i = 0; i < points.length-segmentLength+1; i++) {
             //making an array of PointData objects, that store the slope from the base point to them, as well as a refference to their point
@@ -53,14 +64,13 @@ public class BruteCollinearPoints {
             //sorting the array so that points with same slopes are next to one another
             pointData = sortPointData(pointData);
 
-            //printint the sorted data(dellete later)=======================================
-            for (int j = 0; j < pointData.length; j++) {
-                System.out.println(pointData[j].point.toString()+" "+pointData[j].slope);
+            for (int j = 0; j < pointData.length-segmentLength+2; j++) {
+                if(pointData[j].slope==pointData[j+segmentLength-2].slope){
+                    segments[segmentsSize] = new LineSegment(points[i],pointData[j+segmentLength-2].point);
+                    segmentsSize++;
+                    break;
+                }
             }
-            System.out.println();
-            //===============================================================================
-
-
 
 
         }
@@ -75,7 +85,7 @@ public class BruteCollinearPoints {
         }
     }
 
-    //method for sorting
+    //methods for sorting
     private PointData[] sortPointData(PointData[] pointData){
         for (int i = 0; i < pointData.length; i++) {
             for (int j = i-1; j >=0; j--) {
@@ -89,6 +99,20 @@ public class BruteCollinearPoints {
             }
         }
         return pointData;
+    }
+    private Point[] sortPoints(Point[] points){
+        for (int i = 0; i < points.length; i++) {
+            for (int j = i-1; j >=0; j--) {
+                if(points[j+1].compareTo(points[j])>0){
+                    Point temp = points[j];
+                    points[j] = points[j+1];
+                    points[j+1] = temp;
+                }else{
+                    break;
+                }
+            }
+        }
+        return points;
     }
 
 

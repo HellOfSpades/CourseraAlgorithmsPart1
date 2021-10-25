@@ -16,6 +16,8 @@ public class Main {
         points[7] = new Point(-1,6);
         points[8] = new Point(0,4);
 
+        //lines- (-3,10),(-1,6),(1,2),(3,-2),(4,-4)
+
         BruteCollinearPoints bcp = new BruteCollinearPoints(points);
 
         for (int i = 0; i < bcp.numberOfSegments(); i++) {
