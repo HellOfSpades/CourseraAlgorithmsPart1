@@ -1,5 +1,4 @@
-import javax.swing.text.Segment;
-import java.util.stream.IntStream;
+
 
 public class BruteCollinearPoints {
 
