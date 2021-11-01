@@ -54,6 +54,7 @@ public class BruteCollinearPoints {
         //sort the points array so we don't need to see which points are at ends later
         points = sortPoints(points);
 
+
         //itterate through each point to check their slopes compared to others
         for (int i = 0; i < points.length-segmentLength+1; i++) {
             //making an array of PointData objects, that store the slope from the base point to them, as well as a refference to their point

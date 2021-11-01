@@ -83,31 +83,66 @@ public class FastCollinearPoints {
 
     //methods for sorting
     private PointData[] sortPointData(PointData[] pointData){
-        for (int i = 0; i < pointData.length; i++) {
-            for (int j = i-1; j >=0; j--) {
-                if(pointData[j+1].slope<pointData[j].slope){
-                    PointData temp = pointData[j];
-                    pointData[j] = pointData[j+1];
-                    pointData[j+1] = temp;
-                }else{
-                    break;
-                }
-            }
-        }
+        PointData[] aux = new PointData[pointData.length];
+        sortPointData(pointData,aux,0, pointData.length-1);
         return pointData;
     }
-    private Point[] sortPoints(Point[] points){
-        for (int i = 0; i < points.length; i++) {
-            for (int j = i-1; j >=0; j--) {
-                if(points[j+1].compareTo(points[j])>0){
-                    Point temp = points[j];
-                    points[j] = points[j+1];
-                    points[j+1] = temp;
-                }else{
-                    break;
-                }
-            }
+    private void sortPointData(PointData[] pointData, PointData[] aux, int low, int high){
+        if(high<=low)return;
+        int mid = low + (high-low)/2;
+        sortPointData(pointData,aux,low,mid);
+        sortPointData(pointData,aux,mid+1,high);
+        mergePointData(pointData,aux,low,mid,high);
+    }
+    private void mergePointData(PointData[] pointData, PointData[] aux,int low, int mid, int high){
+        for (int i = 0; i < pointData.length; i++) {
+            aux[i] = pointData[i];
         }
+        int l = low;
+        int m = mid+1;
+        for (int i = low; i <= high; i++) {
+            if(l>mid){
+                pointData[i] = aux[m++];
+            }else if(m>high){
+                pointData[i] = aux[l++];
+            }else if(aux[l].slope<aux[m].slope){
+                pointData[i] = aux[m++];
+            }else{
+                pointData[i] = aux[l++];
+            }
+
+        }
+    }
+
+    private Point[] sortPoints(Point[] points){
+        Point[] aux = new Point[points.length];
+        sortPoints(points,aux,0, points.length-1);
         return points;
+    }
+    private void sortPoints(Point[] points, Point[] aux, int low, int high){
+        if(high<=low)return;
+        int mid = low + (high-low)/2;
+        sortPoints(points,aux,low,mid);
+        sortPoints(points,aux,mid+1,high);
+        mergePoints(points,aux,low,mid,high);
+    }
+    private void mergePoints(Point[] points, Point[] aux, int low, int mid, int high){
+        for (int i = 0; i < points.length; i++) {
+            aux[i] = points[i];
+        }
+        int l = low;
+        int m = mid+1;
+        for (int i = low; i <= high; i++) {
+            if(l>mid){
+                points[i] = aux[m++];
+            }else if(m>high){
+                points[i] = aux[l++];
+            }else if(aux[l].compareTo(aux[m])<0){
+                points[i] = aux[m++];
+            }else{
+                points[i] = aux[l++];
+            }
+
+        }
     }
 }

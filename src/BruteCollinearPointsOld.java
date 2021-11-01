@@ -1,4 +1,4 @@
-import edu.princeton.cs.algs4.In;
+
 
 public class BruteCollinearPointsOld {
     private LineSegment[] segments;

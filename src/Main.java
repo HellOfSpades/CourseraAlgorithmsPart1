@@ -1,6 +1,3 @@
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,9 +13,9 @@ public class Main {
         points[7] = new Point(-1,6);
         points[8] = new Point(0,4);
 
-        //lines- (-3,10),(-1,6),(1,2),(3,-2),(4,-4)
+        //lines- (-3,10),(-1,6),(0,4),(1,2),(3,-2),(4,-4)
 
-        BruteCollinearPoints bcp = new BruteCollinearPoints(points);
+        FastCollinearPoints bcp = new FastCollinearPoints(points);
 
         for (int i = 0; i < bcp.numberOfSegments(); i++) {
             System.out.println(bcp.segments()[i]);
